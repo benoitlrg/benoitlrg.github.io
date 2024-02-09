@@ -67,7 +67,7 @@ Pour donner un ordre de grandeur, le même nombre en grains de maïs permettrait
 - les électrons ont une masse négligeable, <!-- .element: class="fragment" data-fragment-index="1" -->
 - la masse d'un nucléon est $1,67\,\times 10^{-24}\,g$, <!-- .element: class="fragment" data-fragment-index="2" -->
 - il y a $A$ nucléons donc la masse de l'atome est $m_a=A\,\times 1,67\,\times 10^{-24}\,g$, <!-- .element: class="fragment" data-fragment-index="3" -->
-- la masse d'une mole d'atomes est donc :$$m=6,62\,\times 10^{23}\,\times A\,\times 1,67\,\times 10^{-24} \approx A\,g$$ <!-- .element: class="fragment" data-fragment-index="4" -->
+- la masse d'une mole d'atomes est donc :$$m=6,022\,\times 10^{23}\,\times A\,\times 1,67\,\times 10^{-24} \approx A\,g$$ <!-- .element: class="fragment" data-fragment-index="4" -->
 
 
 
