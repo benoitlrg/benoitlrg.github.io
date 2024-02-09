@@ -33,6 +33,27 @@
 ![image](./assets/spectre_lumiere_blanche.png)
 
 
+### Conversions
+
+| Le symbole... | ...se lit... | ...et veut dire |
+| :---: | :---: | :---: |
+| $n$ | nano | $\times 10^{-9}$ |
+| $\mu$ | micro | $\times 10^{-6}$ |
+
+*Exemples :*
+
+$$650\,nm=650\times 10^{-9}\,m$$
+
+$$650\,nm= 650\,\times 10^{-3}\times 10^{-6}\,m $$
+
+$$650\,nm= 650 \times 10^{-3}\,\mu m$$
+
+
+### Exemple
+
+Le Soleil émet un spectre continu de lumière blanche. Mais sa lumière nous paraît jaune. C'est parce qu'il n'émet pas toutes les radiations de la même façon ; il émet principalement aux alentours de $500\,nm$.
+
+
 ### Monochromatique ou polychromatique ?
 
 * Une lumière monochromatique contient une seule radiation lumineuse colorée, et donc une seule longueur d'onde.<!-- .element: class="fragment" data-fragment-index="1" -->
@@ -59,6 +80,16 @@ Un corps chauffé émet de la lumière. La couleur de la lumière dépend de la 
 > Le spectre d'un corps chauffé est continu. Il s'enrichit de lumières vers le bleu à mesure qu'il devient plus chaud.
 
 
+### Application aux étoiles
+
+![image](./assets/etoiles.jpg)
+
+
+* Une étoile est un corps chaud.<!-- .element: class="fragment" data-fragment-index="1" -->
+* Certaines étoiles sont rouges, d'autres jaunes et d'autres bleues.<!-- .element: class="fragment" data-fragment-index="2" -->
+* Une étoile qui apparaît rouge n'est pas très chaude.<!-- .element: class="fragment" data-fragment-index="3" -->
+* Une étoile qui apparaît jaune est moyennement chaude.<!-- .element: class="fragment" data-fragment-index="4" -->
+* Une étoile bleue est très chaude. Son spectre contient toutes les radiations colorées, mais celles de couleur bleue sont tellement intenses que la lumière perçue est bleue.<!-- .element: class="fragment" data-fragment-index="5" -->
 
 
 ## Spectres des vapeurs atomiques
