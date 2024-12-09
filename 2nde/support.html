@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title></title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div id="content"></div>
+
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+    <script type="text/babel">
+
+let categories = ['alkali-metals','alkaline-earth-metals','lanthanoids','actinoids','transition-metals','post-transition-metals','metalloids','other-nonmetals','noble-gasses','unknown'];
+
+class App extends React.Component{
+
+	constructor(props){
+		super(props);
+		this.state = {elements: [],
+						categories: categories};
+	}
+
+	componentDidMount(){
+		this.loadData();
+	}
+
+	loadData(){
+		console.log('Loading data...');
+		fetch('./PeriodicTableJSON.json')
+			.then(response => response.json())
+  				.then(data => {
+					this.setState({elements: data.elements});
+					let temp = [];
+					for (let el in data.elements){
+						temp.push(data.elements[el].category);
+					}
+					let result = temp.filter((item,index) => temp.indexOf(item) === index);
+					for (let i=0; i<result.length; i++){
+						result[i] = result[i].split(' ').join('-');
+					}
+					this.setState({categories: result});
+					//console.log(result);
+
+				})
+				.then(console.log('Data successfully loaded !'))
+	}
+	
+
+  	render(){
+		console.log(this.state.elements);
+		console.log(this.state.categories);
+
+		return(
+			<div class="wrapper">
+				<input class="category-toggle" type="radio" id="alkali-metals" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+				<input class="category-toggle" type="radio" id="alkaline-earth-metals" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+				<input class="category-toggle" type="radio" id="lanthanoids" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+				<input class="category-toggle" type="radio" id="actinoids" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+				<input class="category-toggle" type="radio" id="transition-metals" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+				<input class="category-toggle" type="radio" id="post-transition-metals" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+				<input class="category-toggle" type="radio" id="metalloids" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+				<input class="category-toggle" type="radio" id="other-nonmetals" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+				<input class="category-toggle" type="radio" id="noble-gasses" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+				<input class="category-toggle" type="radio" id="unknown" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+
+				<div class="periodic-table">
+					{this.state.elements.map(el => (
+						<div className={`element r${el.ypos} c${el.xpos} ${el.category.split(' ').join('-')}`} >
+							<input class="activate" type="radio" name="elements"/>
+      						<input class="deactivate" type="radio" name="elements"/>
+      						<div class="overlay"></div>
+							<div className="square">
+								<div className="atomic-number">{el.number}</div>
+								<div className="label">
+									<div class="symbol">{el.symbol}</div>
+          							<div class="name">{el.name}</div>
+								</div>
+								<div class="atomic-mass">{el.atomic_mass}</div>
+								<ul class="atomic-weight">
+									<li></li>
+								</ul>
+							</div>
+						</div>
+					))}
+				
+		
+
+					<div class="placeholder lanthanoid c3 r6">
+						<div class="square">57-71</div>
+					</div>
+					<div class="placeholder actinoid c3 r7">
+						<div class="square">89-103</div>
+					</div>
+					<div class="gap c3 r8"></div>
+					<div class="key">
+						<div class="row">
+							<label class="alkali-metal" for="alkali-metals">Alkali Metals</label>
+							<label class="alkaline-earth-metal" for="alkaline-earth-metals">Alkaline Earth Metals</label>
+							<label class="lanthanoid" for="lanthanoids">Lanthanoids</label>
+							<label class="actinoid" for="actinoids">Aktinoids</label>
+							<label class="transition-metal" for="transition-metals">Transition Metals</label>
+							<label class="post-transition-metal" for="post-transition-metals">Post-Transition Metals</label>
+							<label class="metalloid" for="metalloids">Metalloids</label>
+							<label class="other-nonmetal" for="other-nonmetals">Other Nonmetals</label>
+							<label class="noble-gas" for="noble-gasses">Noble Gasses</label>
+							<label class="unknown" for="unknown">Unknown</label>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		);
+	}
+}
+
+
+
+ReactDOM.render(
+  <App/>,
+  document.getElementById('content')
+);
+
+    </script>
+    
+  </body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title></title>
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+  <body>
+    <div id="content"></div>
+
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+    <script type="text/babel">
+
+//let categories = ['alkali-metals','alkaline-earth-metals','lanthanoids','actinoids','transition-metals','post-transition-metals','metalloids','other-nonmetals','noble-gasses','unknown'];
+
+
+let categories = [
+		['alkali-metals', 'alkali-metal', 'métaux alcalins'],
+		['alkaline-earth-metals', 'alkaline-earth-metal', 'métaux alcalino-terreux'],
+		['lanthanoids','lanthanoid', 'lanthanides'],
+		['actinoids', 'actinoid', 'actinides'],
+		['transition-metals', 'transition-metal', 'métaux de transition'],
+		['post-transition-metals', 'post-transition-metal', 'métaux pauvres'],
+		['metalloids', 'metalloid', 'métalloïdes'],
+		['other-nonmetals', 'other-nonmetal', 'autres non-métaux'],
+		['noble-gasses', 'noble-gas', 'gaz nobles'],
+		['halogens', 'halogen', 'halogènes']
+]
+
+
+let columns = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+let lines = [1, 2, 3, 4, 5, 6, 7];
+
+function toRoman(num) {
+  if (typeof num !== 'number') return false; 
+  
+  let digits = String(+num).split("");
+  let key = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
+  "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
+  "","I","II","III","IV","V","VI","VII","VIII","IX"];
+  let roman_num = "";
+  let i = 3;
+  while (i--){
+    roman_num = (key[+digits.pop() + (i * 10)] || "") + roman_num;
+  }
+  
+  return Array(+digits.join("") + 1).join("M") + roman_num;
+}
+
+function simple(num){
+	if (num<3){
+		return num
+	}
+	else if (num>12){
+		return num-10
+	}
+}
+function addElectrons(i){
+	content = '';
+	for (let j=0; j<i; j++){
+		content += '<div className="electron"></div>';
+	}
+	return content
+}
+
+class App extends React.Component{
+
+	constructor(props){
+		super(props);
+		this.state = {elements: [],
+						categories: categories};
+	}
+
+	componentDidMount(){
+		this.loadData();
+	}
+
+	loadData(){
+		console.log('Loading data...');
+		fetch('./PeriodicTableJSON.json')
+			.then(response => response.json())
+  				.then(data => {
+					this.setState({elements: data.elements});
+				})
+				.then(console.log('Data successfully loaded !'))
+	}
+	
+  	render(){
+		//console.log(this.state.elements);
+		//console.log(this.state.categories);
+		return(
+			<div class="wrapper">
+				<h1 id="pageTitle">Classification périodique des éléments</h1>
+				<input class="category-toggle" type="radio" id="alkali-metals" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+				<input class="category-toggle" type="radio" id="alkaline-earth-metals" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+				<input class="category-toggle" type="radio" id="lanthanoids" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+				<input class="category-toggle" type="radio" id="actinoids" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+				<input class="category-toggle" type="radio" id="transition-metals" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+				<input class="category-toggle" type="radio" id="post-transition-metals" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+				<input class="category-toggle" type="radio" id="metalloids" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+				<input class="category-toggle" type="radio" id="other-nonmetals" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+				<input class="category-toggle" type="radio" id="halogens" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+				<input class="category-toggle" type="radio" id="noble-gasses" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+				<input class="category-toggle" type="radio" id="unknown" name="categories"/>
+				<input class="category-cancel" type="radio" id="cancel" name="categories"/>
+
+				<div class="periodic-table">
+					{this.state.elements.map(el => (
+						<div className={`element r${el.ypos+1} c${(el.number >= 57 && el.number <= 71) || (el.number >= 89 && el.number <= 103) ? el.xpos+2 : el.xpos+1} ${el.category.split(' ').join('-')}`} >
+							<input class="activate" type="radio" name="elements"/>
+      						<input class="deactivate" type="radio" name="elements"/>
+      						<div class="overlay"></div>
+								<div className="square">
+									<div class="model">
+									{el.shells.map(line => (
+										<div className="orbital">
+											{[...Array(line)].map(i => (
+												<div className="electron" key={i}></div>
+											))}
+											
+										</div>
+									))}
+									</div>
+									<div className="electron-config">{el.electron_configuration}</div>
+									<div className="atomic-number">{el.number}</div>
+									<div className="label">
+										<div class="symbol">{el.symbol}</div>
+										<div class="name">{el.namefr}</div>
+									</div>
+									<div class="atomic-mass">{Number((el.atomic_mass).toFixed(2))}</div>
+									<ul class="atomic-weight">
+										<li></li>
+									</ul>
+								</div>
+						</div>
+					))}
+				
+					{columns.map(num =>(
+						<div className={`placeholder c${num+1} r1`}>
+						<div className="column">
+							<h4>{toRoman(num)}</h4>
+							<h3>{simple(num)}</h3>
+						</div>
+					</div>
+					))}
+					
+					{lines.map(num =>(
+						<div class={`square r${num+1} c1`}>
+						<div class="column">
+							<h3 class="lineNumber">{num}</h3>
+						</div>
+					</div>
+					))}
+
+					<div class="placeholder lanthanoid c4 r7">
+						<div class="square">57-71</div>
+					</div>
+					<div class="placeholder actinoid c4 r8">
+						<div class="square">89-103</div>
+					</div>
+					<div class="gap c4 r9"></div>
+					<div class="key">
+						<div class="row">
+							{this.state.categories.map(cat => (
+								<label className={cat[1]} for={cat[0]}>{cat[2]}</label>
+							))}
+						</div>
+					</div>
+
+				</div>
+			</div>
+		);
+	}
+}
+
+
+
+ReactDOM.render(
+  <App/>,
+  document.getElementById('content')
+);
+
+    </script>
+    
+  </body>
+</html>
